@@ -26,4 +26,24 @@ class OfferParams
     {
         return $this->getParam($name)?->getValue() ?? $default;
     }
+
+    public function getParamValueInt(string $name, ?int $default = null): ?int
+    {
+        $value = $this->getParamValue($name);
+
+        return $value !== null ? (int) $value : $default;
+    }
+
+    public function getParamValueBool(string $name, ?bool $default = null): ?bool
+    {
+        $value = $this->getParamValue($name);
+
+        if (null === $value) {
+            return $default;
+        }
+
+        $value = mb_strtolower($value);
+
+        return in_array($value, ['true', '1', 'да'], true);
+    }
 }

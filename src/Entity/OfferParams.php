@@ -44,6 +44,6 @@ class OfferParams
 
         $value = mb_strtolower($value);
 
-        return in_array($value, ['true', '1', 'да'], true);
+        return in_array($value, ['true', '1', 'да', 'yes'], true);
     }
 }

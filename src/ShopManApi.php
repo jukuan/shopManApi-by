@@ -10,8 +10,8 @@ use Generator;
 use LireinCore\YMLParser\Category;
 use LireinCore\YMLParser\Offer\AExtOffer;
 use LireinCore\YMLParser\Shop;
-use LireinCore\YMLParser\YML;
 use Psr\Log\LoggerInterface;
+use ShopManApi\YMLParser\YML;
 
 class ShopManApi
 {

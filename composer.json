@@ -1,11 +1,12 @@
 {
     "name": "jukuan/shop-manapi-by",
+    "version": "1.0.1",
     "type": "library",
     "license": "MIT",
     "authors": [
         {
-            "name": "Julian",
-            "email": "i@juljan.by"
+            "name": "Julian M",
+            "email": "y.misiukevich@gmail.com"
         }
     ],
     "keywords": [
@@ -22,8 +23,13 @@
             "ShopManApi\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
     "require": {
-        "php": ">=8.1",
+        "php": "^8.1",
         "ext-curl": "*",
         "ext-json": "*",
         "ext-mbstring": "*",

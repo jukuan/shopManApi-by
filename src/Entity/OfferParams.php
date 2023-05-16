@@ -13,7 +13,9 @@ class OfferParams
     public function __construct(array|null $params)
     {
         foreach ($params ?? [] as $param) {
-            $this->paramsByName[$param->getName()] = $param;
+            if ($param instanceof Param) {
+                $this->paramsByName[$param->getName()] = $param;
+            }
         }
     }
 
@@ -24,26 +26,44 @@ class OfferParams
 
     public function getParamValue(string $name, ?string $default = null): ?string
     {
-        return $this->getParam($name)?->getValue() ?? $default;
+        $value = $this->getParam($name)?->getValue() ?? null;
+
+        if (null !== $value && !is_string($value)) {
+            $value = (string)$value;
+        }
+
+        return $value ?? $default;
     }
 
     public function getParamValueInt(string $name, ?int $default = null): ?int
     {
-        $value = $this->getParamValue($name);
+        $value = $this->getParam($name)?->getValue() ?? null;
 
-        return $value !== null ? (int) $value : $default;
+        return null !== $value ? (int) $value : $default;
     }
 
     public function getParamValueBool(string $name, ?bool $default = null): ?bool
     {
-        $value = $this->getParamValue($name);
+        $value = $this->getParam($name)?->getValue() ?? null;
 
         if (null === $value) {
             return $default;
         }
 
+        if (is_bool($value)) {
+            return $value;
+        }
+
         $value = mb_strtolower($value);
 
-        return in_array($value, ['true', '1', 'да', 'yes'], true);
+        if (in_array($value, ['', 'false', '0', 'нет', 'no'], true)) {
+            return false;
+        }
+
+        if (in_array($value, ['true', '1', 'да', 'yes'], true)) {
+            return true;
+        }
+
+        return $default;
     }
 }

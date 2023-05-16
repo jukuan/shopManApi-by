@@ -11,6 +11,7 @@ use LireinCore\YMLParser\Category;
 use LireinCore\YMLParser\Offer\AExtOffer;
 use LireinCore\YMLParser\Shop;
 use Psr\Log\LoggerInterface;
+use ShopManApi\YMLParser\Offer\ShopMVendorOffer;
 use ShopManApi\YMLParser\YML;
 
 class ShopManApi
@@ -67,9 +68,9 @@ class ShopManApi
 
     public function getDate(): ?DateTimeImmutable
     {
-        $date = $this->yml?->getDate();
+        $date = $this->yml?->getDate() ?: null;
 
-        if (null === $date || '' === $date) {
+        if (null === $date) {
             return null;
         }
 
@@ -86,15 +87,11 @@ class ShopManApi
     {
         $shop = $this->yml?->getShop();
 
-        if (null === $shop || !$shop->isValid()) {
-            return null;
-        }
-
-        return $shop;
+        return $shop?->isValid() ? $shop : null;
     }
 
     /**
-     * @return AExtOffer[]|Generator
+     * @return AExtOffer[]|ShopMVendorOffer[]|Generator
      */
     public function getOffers(): iterable|Generator
     {

@@ -10,7 +10,7 @@ class OfferParams
 {
     private array $paramsByName = [];
 
-    public function __construct(array|null $params)
+    public function __construct(?array $params)
     {
         foreach ($params ?? [] as $param) {
             if ($param instanceof Param) {
@@ -26,7 +26,11 @@ class OfferParams
 
     public function getParamValue(string $name, ?string $default = null): ?string
     {
-        $value = $this->getParam($name)?->getValue() ?? null;
+        if (null === $this->getParam($name)) {
+            return null;
+        }
+
+        $value = $this->getParam($name)->getValue() ?? null;
 
         if (null !== $value && !is_string($value)) {
             $value = (string)$value;
@@ -37,14 +41,22 @@ class OfferParams
 
     public function getParamValueInt(string $name, ?int $default = null): ?int
     {
-        $value = $this->getParam($name)?->getValue() ?? null;
+        if (null === $this->getParam($name)) {
+            return null;
+        }
+
+        $value = $this->getParam($name)->getValue() ?? null;
 
         return null !== $value ? (int) $value : $default;
     }
 
     public function getParamValueBool(string $name, ?bool $default = null): ?bool
     {
-        $value = $this->getParam($name)?->getValue() ?? null;
+        if (null === $this->getParam($name)) {
+            return null;
+        }
+
+        $value = $this->getParam($name)->getValue() ?? null;
 
         if (null === $value) {
             return $default;

@@ -24,13 +24,18 @@ class ShopManApi
 
     private ?Exception $lastError = null;
 
+    private int $shopId;
+    private string $key;
+
     public function __construct(
-        private readonly int $shopId,
-        private readonly string $key
+        int $shopId,
+        string $key
     ) {
+        $this->shopId = $shopId;
+        $this->key = $key;
     }
 
-    public function reset(): static
+    public function reset(): ShopManApi
     {
         $this->yml = null;
         $this->lastError = null;
@@ -50,7 +55,7 @@ class ShopManApi
         return $this->lastError;
     }
 
-    public function parseYml(string $file): static
+    public function parseYml(string $file): ShopManApi
     {
         $url = self::SM_API . sprintf('%s?shopId=%d&key=%s', $file, $this->shopId, $this->key);
 
@@ -68,7 +73,11 @@ class ShopManApi
 
     public function getDate(): ?DateTimeImmutable
     {
-        $date = $this->yml?->getDate() ?: null;
+        if (null === $this->yml) {
+            return null;
+        }
+
+        $date = $this->yml->getDate() ?: null;
 
         if (null === $date) {
             return null;
@@ -85,18 +94,27 @@ class ShopManApi
 
     public function getShop(): ?Shop
     {
-        $shop = $this->yml?->getShop();
+        if ($this->yml) {
+            $shop = $this->yml->getShop();
+        } else {
+            return null;
+        }
 
-        return $shop?->isValid() ? $shop : null;
+
+        return $shop->isValid() ? $shop : null;
     }
 
     /**
      * @return AExtOffer[]|ShopMVendorOffer[]|Generator
      */
-    public function getOffers(): iterable|Generator
+    public function getOffers()
     {
+        if (null === $this->yml) {
+            return [];
+        }
+
         try {
-            return $this->yml?->getOffers() ?? [];
+            return $this->yml->getOffers() ?? [];
         } catch (Exception $e) {
             $this->logException($e);
         }
@@ -107,7 +125,11 @@ class ShopManApi
      */
     public function getCategories(): iterable
     {
-        $categories = $this->getShop()?->getCategories();
+        if ($this->getShop()) {
+            $categories = $this->getShop()->getCategories();
+        } else {
+            return [];
+        }
 
         return $categories ?? [];
     }

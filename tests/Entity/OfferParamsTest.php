@@ -28,7 +28,7 @@ class OfferParamsTest extends TestCase
     /**
      * @dataProvider offerParamsStringProvider
      */
-    public function testGettingParamValueString(array|null $params, ?string $expected): void
+    public function testGettingParamValueString(?array $params, ?string $expected): void
     {
         $offerParams = new OfferParams($params);
         $this->assertSame($expected, $offerParams->getParamValue('name'));
@@ -51,7 +51,7 @@ class OfferParamsTest extends TestCase
     /**
      * @dataProvider offerParamsIntProvider
      */
-    public function testGettingParamValueInt(array|null $params, ?int $expected): void
+    public function testGettingParamValueInt(?array $params, ?int $expected): void
     {
         $offerParams = new OfferParams($params);
         $this->assertSame($expected, $offerParams->getParamValueInt('amount'));
@@ -85,7 +85,7 @@ class OfferParamsTest extends TestCase
     /**
      * @dataProvider offerParamsBoolProvider
      */
-    public function testGettingBoolValue(array|null $params, ?bool $expected): void
+    public function testGettingBoolValue(?array $params, ?bool $expected): void
     {
         $offerParams = new OfferParams($params);
         $this->assertSame($expected, $offerParams->getParamValueBool('isCorrect'));

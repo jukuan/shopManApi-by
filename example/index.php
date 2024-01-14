@@ -28,4 +28,4 @@ echo sprintf('Offers count: %d', count($offers)) . PHP_EOL;
 
 /** @var Exception $lastError */
 $lastError = $handler->getLastError();
-echo sprintf('Last error: %s', $lastError?->getMessage() ?? 'none') . PHP_EOL;
+echo sprintf('Last error: %s', $lastError->getMessage() ?? 'none') . PHP_EOL;

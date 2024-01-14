@@ -10,7 +10,7 @@ class ShopMVendorOffer extends VendorModelOffer
 {
     private int $quantityInStock = 0;
 
-    public function addAttribute(array $attrNode): static
+    public function addAttribute(array $attrNode): ShopMVendorOffer
     {
         $name = $attrNode['name'] ?? '';
 

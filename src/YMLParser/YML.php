@@ -19,8 +19,9 @@ class YML extends BaseYML
 {
     /**
      * @param string $type
+     * @return BookOffer|SimpleOffer|TourOffer|VendorModelOffer|ShopMVendorOffer|MedicineOffer|AudioBookOffer|ArtistTitleOffer|EventTicketOffer
      */
-    protected function createOffer($type): BookOffer|SimpleOffer|TourOffer|VendorModelOffer|ShopMVendorOffer|MedicineOffer|AudioBookOffer|ArtistTitleOffer|EventTicketOffer
+    protected function createOffer($type)
     {
         if ('vendor.model' === $type) {
             return new ShopMVendorOffer();

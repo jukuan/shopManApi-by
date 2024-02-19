@@ -10,15 +10,22 @@ class ShopMVendorOffer extends VendorModelOffer
 {
     private int $quantityInStock = 0;
     private string $vendorName = '';
+    private string $importer = '';
+    private string $serviceCenter = '';
 
     public function addAttribute(array $attrNode): ShopMVendorOffer
     {
         $name = $attrNode['name'] ?? '';
+        $value = $attrNode['value'] ?? '';
 
         if ('quantity_in_stock' === $name) {
-            $this->quantityInStock = (int) ($attrNode['value'] ?? 0);
+            $this->quantityInStock = (int) $value;
         } else if ('vendor_name' === $name) {
-            $this->vendorName = $attrNode['value'] ?? '';
+            $this->vendorName = $value;
+        } else if ('importer' === $name) {
+            $this->importer = $value;
+        } else if ('service_center' === $name) {
+            $this->serviceCenter = $value;
         } else {
             parent::addAttribute($attrNode);
         }
@@ -34,5 +41,15 @@ class ShopMVendorOffer extends VendorModelOffer
     public function getVendorName(): string
     {
         return $this->vendorName;
+    }
+
+    public function getImporter(): string
+    {
+        return $this->importer;
+    }
+
+    public function getServiceCenter(): string
+    {
+        return $this->serviceCenter;
     }
 }

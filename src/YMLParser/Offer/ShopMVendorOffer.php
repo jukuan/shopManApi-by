@@ -16,16 +16,17 @@ class ShopMVendorOffer extends VendorModelOffer
     public function addAttribute(array $attrNode): ShopMVendorOffer
     {
         $name = $attrNode['name'] ?? '';
-        $value = $attrNode['value'] ?? '';
 
         if ('quantity_in_stock' === $name) {
-            $this->quantityInStock = (int) $value;
+            $this->quantityInStock = (int) ($attrNode['value'] ?? 0);
         } else if ('vendor_name' === $name) {
-            $this->vendorName = $value;
+            $this->vendorName = $attrNode['value'] ?? '';
         } else if ('importer' === $name) {
-            $this->importer = $value;
+            $attributes = $attrNode['attributes'] ?? [];
+            $this->importer = $attributes ? reset($attributes) : '';
         } else if ('service_center' === $name) {
-            $this->serviceCenter = $value;
+            $attributes = $attrNode['attributes'] ?? [];
+            $this->serviceCenter = $attributes ? reset($attributes) : '';
         } else {
             parent::addAttribute($attrNode);
         }
